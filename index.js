@@ -27,6 +27,8 @@ client.on("message", (message) => {
 
   if (command === "ping") {
     client.commands.get("ping").execute(message, args);
+  } else if (command === "price") {
+    client.commands.get("price").execute(message, args);
   }
 });
 
