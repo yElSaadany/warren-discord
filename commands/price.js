@@ -1,3 +1,4 @@
+const Discord = require("discord.js");
 const axios = require("axios");
 
 module.exports = {
@@ -12,22 +13,36 @@ module.exports = {
         currency = args[1];
       }
       axios
-        .get(
-          "https://api.coingecko.com/api/v3/simple/price?ids=" +
-            args[0] +
-            "&vs_currencies=" +
-            currency +
-            ""
-        )
+        .get("https://api.coingecko.com/api/v3/coins/" + args[0])
         .then((res) => {
           console.log(res);
-          message.channel.send(
-            args[0] +
-              " is at " +
-              res.data[args[0]][currency] +
-              " " +
-              currency.toUpperCase()
-          );
+          const exampleEmbed = new Discord.MessageEmbed()
+            .setColor(
+              res.data["market_data"]["price_change_24h"] > 0
+                ? "#00ff00"
+                : "#ff0000"
+            )
+            .setAuthor(
+              res.data["name"] +
+                " is at " +
+                res.data["market_data"]["current_price"][currency] +
+                " " +
+                currency.toUpperCase(),
+              res.data["image"]["small"],
+              "https://www.coingecko.com/en/coins/" + args[0]
+            )
+            .setDescription(
+              "[More info...](https://www.coingecko.com/en/coins/" +
+                res.data["id"] +
+                ")"
+            )
+            .setTimestamp()
+            .setFooter(
+              "From CoinGecko",
+              "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fbitcoinist.com%2Fwp-content%2Fuploads%2F2014%2F06%2FCoinGecko_Logo.jpg&f=1&nofb=1"
+            );
+
+          message.channel.send(exampleEmbed);
         })
         .catch((error) => {
           throw error;
