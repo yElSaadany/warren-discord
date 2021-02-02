@@ -9,9 +9,9 @@ module.exports = {
       message.channel.send("Parameters are missing...");
     } else {
       let currency = "usd";
-      var current_coin = args[0];
+      var current_coin = args[0].toLowerCase();
       if (args.length === 2) {
-        currency = args[1];
+        currency = args[1].toLowerCase();
       }
       await axios
         .get("https://api.coingecko.com/api/v3/coins/list")
@@ -39,7 +39,7 @@ module.exports = {
           if (
             res.data["market_data"]["current_price"][currency] === undefined
           ) {
-            message.channel.send("Destination currency does not exist.");
+            message.channel.send("This destination currency is not available.");
             return;
           }
           const exampleEmbed = new Discord.MessageEmbed()
