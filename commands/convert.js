@@ -1,6 +1,12 @@
 const Discord = require("discord.js");
 const axios = require("axios");
 
+const ConverterDisplay = new Discord.MessageEmbed()
+  .setColor("#0000ff")
+  .setDescription(
+    "**Real-time data from**:\n[ExchangeRateAPI](https://exchangeratesapi.io/)\n[CoinGecko](https://www.coingecko.com/)"
+  );
+
 const is_fiat = (currency) => {
   return axios
     .get(
@@ -31,23 +37,21 @@ const crypto_to_fiat = (message, amount, source, destination, swap = false) => {
             } else {
               if (swap) {
                 message.channel.send(
-                  `${amount} ${source.toUpperCase()} = ${
-                    amount /
-                    res.data["market_data"]["current_price"][destination]
-                  } ${destination.toUpperCase()}`
-                );
-                return (
-                  amount / res.data["market_data"]["current_price"][destination]
+                  ConverterDisplay.setTitle(
+                    `${amount} ${destination.toUpperCase()} = ${
+                      amount /
+                      res.data["market_data"]["current_price"][destination]
+                    } ${source.toUpperCase()}`
+                  )
                 );
               } else {
                 message.channel.send(
-                  `${amount} ${source.toUpperCase()} = ${
-                    amount *
-                    res.data["market_data"]["current_price"][destination]
-                  } ${destination.toUpperCase()}`
-                );
-                return (
-                  amount * res.data["market_data"]["current_price"][destination]
+                  ConverterDisplay.setTitle(
+                    `${amount} ${source.toUpperCase()} = ${
+                      amount *
+                      res.data["market_data"]["current_price"][destination]
+                    } ${destination.toUpperCase()}`
+                  )
                 );
               }
             }
@@ -56,7 +60,7 @@ const crypto_to_fiat = (message, amount, source, destination, swap = false) => {
     });
     if (!found) {
       message.channel.send(
-        `Currency ${source} or ${destination} is not available or does not exist.`
+        `**Currency ${source.toUpperCase()} or ${destination.toUpperCase()} is not available or does not exist.**`
       );
     }
   });
@@ -89,9 +93,11 @@ module.exports = {
             console.log(res.data["rates"]);
             if (destination.toUpperCase() in res.data["rates"]) {
               message.channel.send(
-                `${amount} ${source.toUpperCase()} = ${
-                  amount * res.data["rates"][destination.toUpperCase()]
-                } ${destination.toUpperCase()}`
+                ConverterDisplay.setTitle(
+                  `${amount} ${source.toUpperCase()} = ${
+                    amount * res.data["rates"][destination.toUpperCase()]
+                  } ${destination.toUpperCase()}`
+                )
               );
             } else {
               message.channel.send(
@@ -108,48 +114,6 @@ module.exports = {
           `Currency ${source} or ${destination} is not available or does not exist.`
         );
       }
-
-      /**
-      axios
-        .get("https://api.coingecko.com/api/v3/coins/" + current_coin)
-        .then((res) => {
-          if (
-            res.data["market_data"]["current_price"][currency] === undefined
-          ) {
-            message.channel.send("This destination currency is not available.");
-            return;
-          }
-          const exampleEmbed = new Discord.MessageEmbed()
-            .setColor(
-              res.data["market_data"]["price_change_24h"] > 0
-                ? "#00ff00"
-                : "#ff0000"
-            )
-            .setAuthor(
-              res.data["name"] +
-                " is at " +
-                res.data["market_data"]["current_price"][currency] +
-                " " +
-                currency.toUpperCase(),
-              res.data["image"]["small"],
-              "https://www.coingecko.com/en/coins/" + current_coin
-            )
-            .setDescription(
-              "[More info...](https://www.coingecko.com/en/coins/" +
-                res.data["id"] +
-                ")"
-            )
-            .setTimestamp()
-            .setFooter(
-              "From CoinGecko",
-              "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fbitcoinist.com%2Fwp-content%2Fuploads%2F2014%2F06%2FCoinGecko_Logo.jpg&f=1&nofb=1"
-            );
-
-          message.channel.send(exampleEmbed);
-        })
-        .catch((error) => {
-          throw error;
-        });*/
     }
   },
 };
