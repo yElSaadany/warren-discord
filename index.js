@@ -4,7 +4,11 @@ const fs = require("fs");
 
 const client = new Discord.Client();
 const prefix = "$";
-const maintenance = false;
+
+let maintenance = false;
+if (process.argv.length === 3 && process.argv[2] === "maintenance") {
+  maintenance = true;
+}
 
 client.commands = new Discord.Collection();
 
