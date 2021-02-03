@@ -31,7 +31,7 @@ client.on("message", (message) => {
   const command = args.shift().toLowerCase();
 
   console.log(
-    `${message.author["username"]}#${message.author["discriminator"]} : ${command} ${args}`
+    `${message.author["username"]}#${message.author["discriminator"]} on "${message.guild.name}": ${command} ${args}`
   );
 
   if (command === "ping") {

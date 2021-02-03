@@ -16,7 +16,7 @@ module.exports = {
           `${prefix}price <ticker> [currency]`,
           "get the current price of a ticker"
         )
-        .setFooter("<3")
+        .setFooter("Made with <3")
     );
   },
 };
