@@ -22,6 +22,8 @@ client.once("ready", () => {
     activity: { name: `${prefix}help for commands`, type: "WATCHING" },
   });
 
+  client.setTimeout(checkTradingHours, 60000);
+
   console.log("Warren is live!");
 });
 
@@ -49,5 +51,31 @@ client.on("message", (message) => {
     }
   }
 });
+
+const sendMessageInChannel = (id, message) => {
+  client.channels.fetch(id).then((channel) => channel.send(message));
+};
+
+const checkTradingHours = () => {
+  const now = new Date();
+  console.log("here");
+
+  if (now.getDay() in [1, 2, 3, 4, 5]) {
+    console.log("there");
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    console.log(hours);
+    console.log(minutes);
+    if (hours === 9 && minutes === 0) {
+      sendMessageInChannel("802291626193059930", "EURONEXT IS OPEN");
+    } else if (hours === 15 && minutes === 30) {
+      sendMessageInChannel("802291626193059930", "US MARKETS ARE OPEN");
+    } else if (hours === 17 && minutes === 30) {
+      sendMessageInChannel("802291626193059930", "EURONEXT IS CLOSED");
+    } else if (hours === 22 && minutes === 0) {
+      sendMessageInChannel("802291626193059930", "US MARKETS ARE CLOSED");
+    }
+  }
+};
 
 client.login(process.env.DISCORD_TOKEN);
