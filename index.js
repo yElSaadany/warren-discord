@@ -17,6 +17,10 @@ for (const file of commandFiles) {
 }
 
 client.once("ready", () => {
+  client.user.setPresence({
+    activity: { name: `${prefix}help for commands`, type: "WATCHING" },
+  });
+
   console.log("Warren is live!");
 });
 
@@ -34,6 +38,8 @@ client.on("message", (message) => {
     client.commands.get("ping").execute(message, args);
   } else if (command === "price" || command === "p") {
     client.commands.get("price").execute(message, args);
+  } else if (command === "help" || command === "h") {
+    client.commands.get("help").execute(message);
   }
 });
 
