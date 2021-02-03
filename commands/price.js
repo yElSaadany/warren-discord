@@ -6,7 +6,9 @@ module.exports = {
   description: "check cryptocurrency price on coingecko",
   async execute(message, args) {
     if (args.length === 0) {
-      message.channel.send("Parameters are missing...");
+      message.channel.send(
+        "**Wrong command, try: `$price <ticker> [currency]`**"
+      );
     } else {
       let currency = "usd";
       var current_coin = args[0].toLowerCase();

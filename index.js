@@ -4,6 +4,7 @@ const fs = require("fs");
 
 const client = new Discord.Client();
 const prefix = "$";
+const maintenance = false;
 
 client.commands = new Discord.Collection();
 
@@ -34,12 +35,18 @@ client.on("message", (message) => {
     `${message.author["username"]}#${message.author["discriminator"]} on "${message.guild.name}": ${command} ${args}`
   );
 
-  if (command === "ping") {
-    client.commands.get("ping").execute(message, args);
-  } else if (command === "price" || command === "p") {
-    client.commands.get("price").execute(message, args);
-  } else if (command === "help" || command === "h") {
-    client.commands.get("help").execute(message);
+  if (maintenance) {
+    message.channel.send("Warren is in maintenance. **Please Hold**");
+  } else {
+    if (command === "ping") {
+      client.commands.get("ping").execute(message, args);
+    } else if (command === "price" || command === "p") {
+      client.commands.get("price").execute(message, args);
+    } else if (command === "help" || command === "h") {
+      client.commands.get("help").execute(message);
+    } else if (command === "convert") {
+      client.commands.get("convert").execute(message, args);
+    }
   }
 });
 
