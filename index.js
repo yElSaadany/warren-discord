@@ -1,3 +1,4 @@
+require("dotenv").config()
 const Discord = require("discord.js");
 const fs = require("fs");
 
@@ -32,4 +33,4 @@ client.on("message", (message) => {
   }
 });
 
-client.login("Nzg0NzY1Njk2OTc3NTM0OTc2.X8uEAg.hCPLMVJbc_DEjYw7G_UruWLSFjc");
+client.login(process.env.DISCORD_TOKEN);
