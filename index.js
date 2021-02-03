@@ -1,4 +1,4 @@
-require("dotenv").config()
+require("dotenv").config();
 const Discord = require("discord.js");
 const fs = require("fs");
 
@@ -25,6 +25,10 @@ client.on("message", (message) => {
 
   const args = message.content.slice(prefix.length).split(" ");
   const command = args.shift().toLowerCase();
+
+  console.log(
+    `${message.author["username"]}#${message.author["discriminator"]} : ${command} ${args}`
+  );
 
   if (command === "ping") {
     client.commands.get("ping").execute(message, args);

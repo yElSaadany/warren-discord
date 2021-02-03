@@ -30,12 +30,10 @@ module.exports = {
             message.channel.send("This cryptocurrency is not available.");
           }
         });
-      console.log(current_coin);
 
       axios
         .get("https://api.coingecko.com/api/v3/coins/" + current_coin)
         .then((res) => {
-          console.log(res);
           if (
             res.data["market_data"]["current_price"][currency] === undefined
           ) {
