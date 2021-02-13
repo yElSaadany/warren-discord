@@ -88,6 +88,8 @@ client.on("message", (message) => {
       message.author["tag"] === process.env.DISCORD_USERID
     ) {
       client.commands.get("cancel").execute(message, args);
+    } else if (command === "quote") {
+      client.commands.get("quote").execute(message, client, args);
     }
   }
 });
