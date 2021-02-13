@@ -71,6 +71,23 @@ client.on("message", (message) => {
       client.commands.get("help").execute(message);
     } else if (command === "convert") {
       client.commands.get("convert").execute(message, args);
+    } else if (command === "balance") {
+      client.commands.get("balance").execute(message, args);
+    } else if (
+      command === "buy" &&
+      message.author["tag"] === process.env.DISCORD_USERID
+    ) {
+      client.commands.get("trade").execute(message, "BUY", args);
+    } else if (
+      command === "sell" &&
+      message.author["tag"] === process.env.DISCORD_USERID
+    ) {
+      client.commands.get("trade").execute(message, "SELL", args);
+    } else if (
+      command === "cancel" &&
+      message.author["tag"] === process.env.DISCORD_USERID
+    ) {
+      client.commands.get("cancel").execute(message, args);
     }
   }
 });
