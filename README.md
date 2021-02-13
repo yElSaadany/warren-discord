@@ -1,6 +1,9 @@
 # warren-discord
 A Discord bot made for financial, trading and investing servers.
 
+### Usage
+Kinda messy right now, DM for details if you want to try it.
+
 ### TODO
 * Fetch everything from Warren API
 * Restructure / Refactor because right now it's a mess
