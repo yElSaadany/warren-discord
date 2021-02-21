@@ -90,6 +90,8 @@ client.on("message", (message) => {
       client.commands.get("cancel").execute(message, args);
     } else if (command === "quote") {
       client.commands.get("quote").execute(message, client, args);
+    } else if (command === "alert") {
+      client.commands.get("alert").execute(message, args);
     }
   }
 });
