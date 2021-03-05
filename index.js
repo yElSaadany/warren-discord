@@ -1,28 +1,10 @@
 require("dotenv").config();
 const Discord = require("discord.js");
 const fs = require("fs");
-const express = require("express");
-const bodyParser = require("body-parser");
 
-/** Initialize express and define a port
- * For webhook stuff
- * Maybe for API endpoints later
- */
-const app = express();
-const PORT = 4000;
-
-app.use(bodyParser.json());
-
-app.post("/tradinghours", (req, res) => {
-  sendMessageInChannel("802291626193059930", req.body.message);
-  res.status(200).end();
-});
-
-/**
- * Discord bot init
- */
 const client = new Discord.Client();
 const prefix = "$";
+const ADMIN = false;
 
 let maintenance = false;
 if (process.argv.length === 3 && process.argv[2] === "maintenance") {
@@ -44,10 +26,6 @@ client.once("ready", () => {
   client.user.setPresence({
     activity: { name: `${prefix}help for commands`, type: "WATCHING" },
   });
-
-  app.listen(PORT, () =>
-    console.log(`Warren is live on port ${PORT} & connected to Discord.`)
-  );
 });
 
 client.on("message", (message) => {
@@ -73,20 +51,11 @@ client.on("message", (message) => {
       client.commands.get("convert").execute(message, args);
     } else if (command === "balance") {
       client.commands.get("balance").execute(message, args);
-    } else if (
-      command === "buy" &&
-      message.author["tag"] === process.env.DISCORD_USERID
-    ) {
+    } else if (command === "buy" && ADMIN) {
       client.commands.get("trade").execute(message, "BUY", args);
-    } else if (
-      command === "sell" &&
-      message.author["tag"] === process.env.DISCORD_USERID
-    ) {
+    } else if (command === "sell" && ADMIN) {
       client.commands.get("trade").execute(message, "SELL", args);
-    } else if (
-      command === "cancel" &&
-      message.author["tag"] === process.env.DISCORD_USERID
-    ) {
+    } else if (command === "cancel" && ADMIN) {
       client.commands.get("cancel").execute(message, args);
     } else if (command === "quote") {
       client.commands.get("quote").execute(message, client, args);
