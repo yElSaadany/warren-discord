@@ -21,6 +21,18 @@ module.exports = {
           "get the current exchange rate for a trading pair"
         )
         .addField(
+          `${prefix}quote [warren | saylor]`,
+          "get a vocal quote in voice chat from Buffett or Saylor, more to come"
+        )
+        .setFooter(
+          "Made with <3\nIf you experience a problem, DM Endorphin#9333 on Discord."
+        )
+    );
+  },
+};
+
+/*
+.addField(
           `${prefix}balance <ticker>`,
           "REGISTERED USERS: get your account's balance for a ticker"
         )
@@ -32,7 +44,4 @@ module.exports = {
           `${prefix}cancel <order_id>`,
           "REGISTERED USERS: cancel an order"
         )
-        .setFooter("Made with <3")
-    );
-  },
-};
+ */
