@@ -1,10 +1,21 @@
 require("dotenv").config();
 const Discord = require("discord.js");
 const fs = require("fs");
+const express = require("express");
 
 const client = new Discord.Client();
 const prefix = "$";
 const ADMIN = false;
+const app = express();
+const PORT = 3000;
+
+app.get("/", (req, res) => {
+  res
+    .status(200)
+    .json({
+      message: "What are you doing here? Get out of my HTTP endpoints!",
+    });
+});
 
 let maintenance = false;
 if (process.argv.length === 3 && process.argv[2] === "maintenance") {
@@ -69,4 +80,7 @@ const sendMessageInChannel = (id, message) => {
   client.channels.fetch(id).then((channel) => channel.send(message));
 };
 
-client.login(process.env.DISCORD_TOKEN);
+app.listen(process.env.PORT || PORT, () => {
+  client.login(process.env.DISCORD_TOKEN);
+  console.log("Warren Bot is live!");
+});
