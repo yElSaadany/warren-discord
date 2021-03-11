@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 require("dotenv").config();
 
 module.exports = {
@@ -9,13 +10,13 @@ module.exports = {
       ? args[0]
       : ["buffett", "saylor"][Math.floor(Math.random() * 2)];
     console.log(speaker);
-    client.channels.fetch("781218691366781011").then(async (vc) => {
+    const audioDir = path.join(__dirname, `/../assets/audio/${speaker}`);
+    const voiceChannelId = message.member.voice.channelID;
+    client.channels.fetch(voiceChannelId).then(async (vc) => {
       const voiceConn = await vc.join();
-      const audioQuotes = fs.readdirSync(
-        process.env.ASSETS_PATH + `/audio/${speaker}`
-      );
+      const audioQuotes = fs.readdirSync(audioDir);
       voiceConn.play(
-        `${process.env.ASSETS_PATH}/audio/${speaker}/${
+        `${audioDir}/${
           audioQuotes[Math.floor(Math.random() * audioQuotes.length)]
         }`
       );
